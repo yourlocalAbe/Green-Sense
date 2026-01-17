@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Kuisioner - Green Sense</title>
+    <style>
+        :root {
+            --primary-dark: #1a4301;
+            --accent-teal: #34a0a4;
+            --btn-green: #054101;
+            --btn-edit: #f39c12; 
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #76c893, #34a0a4, #184e77);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--primary-dark);
+        }
+
+        /* Unified Interactive Navbar (Admin Mode) */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 8%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .logo-link:hover { transform: scale(1.05); }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 900;
+            font-size: 2rem;
+            letter-spacing: -1px;
+        }
+
+        .logo img { height: 55px; margin-right: 15px; }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 50px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li { position: relative; }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-teal);
+            transition: width var(--transition-speed) ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-teal);
+            transform: translateY(-3px);
+        }
+
+        .nav-links li:hover a::after { width: 100%; }
+
+        .user-profile {
+            width: 55px;
+            height: 55px;
+            background-color: var(--btn-edit);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all var(--transition-speed) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .user-profile:hover {
+            transform: scale(1.2) rotate(5deg);
+            border-color: var(--accent-teal);
+        }
+
+        .user-profile img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Main Content */
+        .main-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 5rem;
+            color: var(--primary-dark);
+            margin-bottom: 40px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Admin Info Card */
+        .info-card {
+            position: relative;
+            background: white;
+            padding: 60px;
+            border-radius: 40px;
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            border: 4px solid var(--btn-edit); /* Border orange for admin */
+        }
+
+        .badge-admin {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--btn-edit);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .info-card h2 {
+            color: var(--btn-edit);
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .info-card p {
+            font-size: 1.4rem;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 50px;
+            font-weight: 500;
+        }
+
+        /* Admin Action Buttons */
+        .admin-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn-admin {
+            display: inline-block;
+            width: 100%;
+            padding: 22px;
+            background-color: var(--btn-edit);
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 900;
+            border-radius: 100px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(243, 156, 18, 0.2);
+        }
+
+        .btn-admin:hover {
+            background-color: #d35400;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--primary-dark);
+            font-size: 1.1rem;
+            padding: 15px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .info-card { padding: 40px 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="Admin_Home.html" class="logo-link">
+            <div class="logo">
+                <img src="assets/logo.png" alt="Green Sense Logo">
+                GREEN SENSE <span style="font-size: 0.8rem; margin-left: 10px; color: var(--btn-edit);">[ADMIN]</span>
+            </div>
+        </a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="Admin_Home.html">Home</a></li>
+                <li><a href="Admin_layanan.html">Layanan</a></li>
+                <li><a href="Admin_Hasil.html" style="color: var(--btn-edit);">Hasil Analisis</a></li>
+            </ul>
+            <div class="user-profile" title="Admin Profile" onclick="location.href='Admin_profile.html'">
+                <img src="https://ui-avatars.com/api/?name=Admin+Abe&background=f39c12&color=fff" alt="User Profile">
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <h1>KUISIONER</h1>
+
+        <div class="info-card">
+            <div class="badge-admin">SURVEY EDITOR</div>
+            <h2>Manajemen Kuisioner</h2>
+            
+            <p id="survey-text">
+                Form ini digunakan untuk menilai kepuasan Anda terhadap layanan PDAM Tangerang dan mengumpulkan ulasan singkat mengenai pengalaman Anda selama menggunakan layanan tersebut.
+            </p>
+
+            <div class="admin-controls">
+                <button class="btn-admin">EDIT TEKS PENGANTAR</button>
+                <button class="btn-admin btn-secondary" onclick="alert('Fitur Kelola Pertanyaan segera hadir ya Abe!')">KELOLA DAFTAR PERTANYAAN</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Analisis Admin - Green Sense</title>
+    <style>
+        :root {
+            --primary-dark: #1a4301;
+            --accent-teal: #34a0a4;
+            --btn-green: #054101;
+            --admin-amber: #f39c12; /* Warna khas admin lo */
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #76c893, #34a0a4, #184e77);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--primary-dark);
+        }
+
+        /* --- NAVBAR ADMIN --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 8%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 900;
+            font-size: 2rem;
+            letter-spacing: -1px;
+        }
+
+        .logo img { height: 55px; margin-right: 15px; }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--admin-amber);
+            transition: width var(--transition-speed);
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+
+        .user-profile {
+            width: 55px;
+            height: 55px;
+            background-color: var(--admin-amber);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform var(--transition-speed);
+            overflow: hidden;
+        }
+
+        .user-profile:hover { transform: scale(1.1); }
+
+        /* --- DASHBOARD CONTENT (SAMA DENGAN PIMPINAN) --- */
+        .container {
+            padding: 40px 8%;
+            text-align: center;
+        }
+
+        .admin-header {
+            margin-bottom: 50px;
+        }
+
+        .badge-status {
+            background: var(--admin-amber);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: 3px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .stats-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--btn-green);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 3px solid var(--admin-amber);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover { transform: translateX(10px); }
+
+        .stat-info { text-align: right; }
+        .stat-info h3 { margin: 0; font-size: 1.4rem; font-weight: 900; opacity: 0.9; }
+        .stat-info p { margin: 0; font-size: 2.5rem; font-weight: 900; }
+
+        .emoji-circle {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            border: 3px solid var(--admin-amber);
+        }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 40px;
+            color: var(--primary-dark);
+            border: 4px solid var(--admin-amber);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .chart-container h4 {
+            margin-top: 0;
+            text-transform: uppercase;
+            font-weight: 900;
+            border-bottom: 2px solid var(--admin-amber);
+            padding-bottom: 10px;
+        }
+
+        .mock-pie {
+            width: 200px;
+            height: 200px;
+            background: conic-gradient(var(--admin-amber) 0% 61%, var(--accent-teal) 61% 84%, var(--primary-dark) 84% 100%);
+            border-radius: 50%;
+            margin: 20px auto;
+            border: 8px solid white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .mock-bar {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 200px;
+            padding-top: 20px;
+        }
+
+        .bar { width: 40px; border-radius: 8px 8px 0 0; background: var(--admin-amber) !important; opacity: 0.8; transition: 0.3s; }
+        .bar:hover { opacity: 1; transform: scaleX(1.1); }
+
+        .actions {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn-action {
+            padding: 20px 60px;
+            border-radius: 100px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-edit { background: white; color: var(--admin-amber); border: 3px solid var(--admin-amber); }
+        .btn-report { background: var(--admin-amber); color: white; box-shadow: 0 10px 25px rgba(243, 156, 18, 0.3); }
+
+        .btn-action:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+        @media (max-width: 1100px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="Admin_Home.html" class="logo-link">
+            <div class="logo">
+                <img src="assets/logo.png" alt="Logo">
+                GREEN SENSE <span style="font-size: 0.8rem; margin-left: 10px; color: var(--admin-amber);">[ADMIN]</span>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="Admin_Home.html">Home</a></li>
+            <li><a href="Admin_layanan.html">Layanan</a></li>
+            <li><a href="Admin_kuisioner.html">Kuisioner</a></li>
+            <li><a href="Admin_Hasil.html" style="color: var(--admin-amber);">Hasil Analisis</a></li>
+            <li>
+                <div class="user-profile" onclick="location.href='Admin_profile.html'">
+                    <img src="https://ui-avatars.com/api/?name=Admin+Abe&background=f39c12&color=fff" alt="User Profile">
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="admin-header">
+            <div class="badge-status">MODE MANAJEMEN DATA</div>
+            <h1>HASIL ANALISIS</h1>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="stats-col">
+                <div class="stat-card">
+                    <div class="emoji-circle">😊</div>
+                    <div class="stat-info">
+                        <h3>POSITIF</h3>
+                        <p>120</p>
+                    </div>
+                </div>
+                <div class="stat-card" style="background: var(--accent-teal);">
+                    <div class="emoji-circle">😐</div>
+                    <div class="stat-info">
+                        <h3>NETRAL</h3>
+                        <p>45</p>
+                    </div>
+                </div>
+                <div class="stat-card" style="background: var(--primary-dark);">
+                    <div class="emoji-circle">☹️</div>
+                    <div class="stat-info">
+                        <h3>NEGATIF</h3>
+                        <p>30</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-container">
+                    <h4>KOMPOSISI SENTIMEN</h4>
+                    <div class="mock-pie"></div>
+                    <div style="font-size: 0.9rem; font-weight: 700; display: flex; justify-content: space-around; margin-top: 10px;">
+                        <span>🟡 61% Positif</span>
+                        <span>🔵 23% Netral</span>
+                        <span>🟢 16% Negatif</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h4>TREN KEPUASAN MINGGUAN</h4>
+                    <div class="mock-bar">
+                        <div class="bar" style="height: 40%;"></div>
+                        <div class="bar" style="height: 70%;"></div>
+                        <div class="bar" style="height: 90%;"></div>
+                        <div class="bar" style="height: 60%;"></div>
+                    </div>
+                    <p style="margin-top: 15px; font-size: 0.9rem; font-weight: 700;">Update: 17 Jan 2026</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn-action btn-edit">EDIT</button>
+            <button class="btn-action btn-report" onclick="window.print()">CETAK LAPORAN</button>
+        </div>
+    </div>
+
+</body>
+</html>
